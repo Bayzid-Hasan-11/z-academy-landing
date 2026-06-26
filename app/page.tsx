@@ -526,7 +526,7 @@ export default function LandingPage() {
               <div>
                 {/* Forminit action URL and Form-Data setup */}
                 <form
-                  action="https://getform.io/f/t2mj9r3mjqv"
+                  action="https://getform.io/f/k6edlfhqstz"
                   method="POST"
                   encType="multipart/form-data"
                   className="space-y-5"
