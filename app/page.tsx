@@ -1,9 +1,15 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, ReactNode } from "react";
 
-// --- Reusable Accordion Component ---
-const Accordion = ({ title, children, isOpen, onClick }) => (
+interface AccordionProps {
+  title: string;
+  children: ReactNode;
+  isOpen: boolean;
+  onClick: () => void;
+}
+
+const Accordion = ({ title, children, isOpen, onClick }: AccordionProps) => (
   <div className="border border-gray-200 rounded-xl mb-4 bg-white shadow-sm overflow-hidden transition-all duration-300 hover:shadow-md">
     <button
       onClick={onClick}
@@ -36,10 +42,10 @@ const Accordion = ({ title, children, isOpen, onClick }) => (
 
 // --- Main Landing Page Component ---
 export default function LandingPage() {
-  const [lang, setLang] = useState("bn");
+  const [lang, setLang] = useState<"bn" | "en">("bn");
   const [scrolled, setScrolled] = useState(false);
-  const [openFaq, setOpenFaq] = useState(null);
-  const [openSyllabus, setOpenSyllabus] = useState(0);
+  const [openFaq, setOpenFaq] = useState<number | null>(null);
+  const [openSyllabus, setOpenSyllabus] = useState<number | null>(0);
   const [copied, setCopied] = useState(false);
 
   // Navbar shadow on scroll
