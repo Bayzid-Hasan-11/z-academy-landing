@@ -41,6 +41,7 @@ const Accordion = ({ title, children, isOpen, onClick }: AccordionProps) => (
 );
 
 // --- Cute Robot Chatbot Component (ZAR) ---
+// --- Cute Robot Chatbot Component (ZAR) ---
 const SimpleChatbot = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [messages, setMessages] = useState<
@@ -94,26 +95,11 @@ const SimpleChatbot = () => {
   };
 
   return (
-    // Positioned Middle-Left
-    <div className="fixed left-6 top-1/2 -translate-y-1/2 z-50 flex items-center">
-      {/* Floating Cute Robot Button */}
-      <button
-        onClick={() => setIsOpen(!isOpen)}
-        className="relative w-16 h-16 bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-500 rounded-full flex justify-center items-center shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:scale-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.8)] transition-all duration-300 z-10"
-      >
-        <span className="text-3xl animate-pulse">🤖</span>
-        {/* Cute notification dot */}
-        {!isOpen && (
-          <span className="absolute top-1 right-1 flex h-4 w-4">
-            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
-            <span className="relative inline-flex rounded-full h-4 w-4 bg-pink-500 border-2 border-white"></span>
-          </span>
-        )}
-      </button>
-
-      {/* Chat Window (Appears to the right of the robot) */}
+    // Positioned Bottom-Left
+    <div className="fixed bottom-6 left-4 md:left-6 z-50 flex flex-col items-start">
+      {/* Chat Window (Appears above the robot) */}
       {isOpen && (
-        <div className="absolute left-20 bg-white/95 backdrop-blur-xl w-[350px] h-[500px] rounded-3xl shadow-2xl border border-indigo-100 overflow-hidden flex flex-col transition-all transform origin-left animate-in fade-in zoom-in duration-300">
+        <div className="absolute bottom-[4.5rem] md:bottom-20 left-0 bg-white/95 backdrop-blur-xl w-[calc(100vw-2rem)] sm:w-[350px] max-h-[70vh] sm:max-h-[500px] h-[500px] rounded-3xl shadow-2xl border border-indigo-100 overflow-hidden flex flex-col transition-all transform origin-bottom-left animate-in fade-in zoom-in duration-300">
           {/* Header */}
           <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white flex justify-between items-center shadow-md">
             <div className="flex items-center gap-3">
@@ -165,7 +151,7 @@ const SimpleChatbot = () => {
           </div>
 
           {/* Options / FAQ Buttons Area */}
-          <div className="p-4 bg-white border-t border-indigo-50 shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
+          <div className="p-4 bg-white border-t border-indigo-50 shadow-[0_-10px_20px_rgba(0,0,0,0.02)] shrink-0">
             <p className="text-xs text-gray-400 font-medium mb-3 flex items-center gap-2">
               <span className="w-full h-px bg-gray-100 flex-1"></span>
               তোমার প্রশ্ন বেছে নাও
@@ -185,6 +171,20 @@ const SimpleChatbot = () => {
           </div>
         </div>
       )}
+
+      {/* Floating Cute Robot Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="relative w-14 h-14 md:w-16 md:h-16 bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-500 rounded-full flex justify-center items-center shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:scale-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.8)] transition-all duration-300 z-10"
+      >
+        <span className="text-2xl md:text-3xl animate-pulse">🤖</span>
+        {!isOpen && (
+          <span className="absolute top-0 right-0 flex h-4 w-4">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-4 w-4 bg-pink-500 border-2 border-white"></span>
+          </span>
+        )}
+      </button>
     </div>
   );
 };
