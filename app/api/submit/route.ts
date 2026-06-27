@@ -8,6 +8,9 @@ export async function POST(req: NextRequest) {
     const phone = formData.get("phone") as string;
     const paymentNumber = formData.get("paymentNumber") as string;
 
+    console.log("GOOGLE_CLIENT_EMAIL:", process.env.GOOGLE_CLIENT_EMAIL);
+    console.log("GOOGLE_PRIVATE_KEY exists:", !!process.env.GOOGLE_PRIVATE_KEY);
+    console.log("GOOGLE_SHEET_ID:", process.env.GOOGLE_SHEET_ID);
     // Authenticate with Google Sheets
     const auth = new google.auth.GoogleAuth({
       credentials: {
