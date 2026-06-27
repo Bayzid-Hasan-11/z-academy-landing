@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, ReactNode } from "react";
+import React, { useState, useEffect, ReactNode, FormEvent } from "react";
 
 interface AccordionProps {
   title: string;
@@ -40,7 +40,155 @@ const Accordion = ({ title, children, isOpen, onClick }: AccordionProps) => (
   </div>
 );
 
-// --- Main Landing Page Component ---
+// --- Cute Robot Chatbot Component (ZAR) ---
+const SimpleChatbot = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [messages, setMessages] = useState<
+    { sender: "bot" | "user"; text: string }[]
+  >([
+    {
+      sender: "bot",
+      text: "হ্যালো! 👋 আমি ZAR (জার), Z Academy-এর ছোট্ট রোবট। তোমাকে কীভাবে সাহায্য করতে পারি?",
+    },
+  ]);
+
+  // Updated and expanded FAQs
+  const faqOptions = [
+    {
+      q: "কোর্সের ফি কত?",
+      a: "আমাদের কোর্সের রেগুলার ফি ২৯৯৯ টাকা, কিন্তু এখন স্পেশাল অফারে মাত্র ৯৯৯ টাকা!",
+    },
+    {
+      q: "ক্লাস কিভাবে হবে?",
+      a: "ক্লাসগুলো সরাসরি লাইভে (Zoom/Google Meet) হবে এবং প্রতিটি ক্লাসের HD রেকর্ডিং দেওয়া হবে।",
+    },
+    {
+      q: "লাইভ ক্লাস মিস করলে কী হবে?",
+      a: "কোনো সমস্যা নেই! প্রতিটি লাইভ ক্লাসের HD রেকর্ডিং আপনার ড্যাশবোর্ডে বা প্রাইভেট গ্রুপে দেওয়া থাকবে।",
+    },
+    {
+      q: "ভর্তি হব কিভাবে?",
+      a: "ওয়েবসাইটের নিচের ফর্মে পেমেন্ট সম্পন্ন করে ডিটেইলস সাবমিট করলেই আমাদের টিম আপনাকে WhatsApp গ্রুপে যুক্ত করে নিবে।",
+    },
+    {
+      q: "লেকচার শিট বা নোটস পাবো?",
+      a: "অবশ্যই! প্রতিটি ক্লাসের পর প্রিমিয়াম কালারফুল লেকচার শিট এবং প্র্যাকটিস ম্যাটেরিয়াল দেওয়া হবে।",
+    },
+    {
+      q: "প্রবলেম সলভিং সাপোর্ট আছে?",
+      a: "হ্যাঁ, আমাদের ডেডিকেটেড সাপোর্ট গ্রুপ আছে, যেখানে আপনি যেকোনো সময় প্রশ্ন করে শিক্ষকের সাহায্য নিতে পারবেন।",
+    },
+    {
+      q: "সরাসরি কথা বলতে চাই",
+      a: "আপনি যেকোনো প্রয়োজনে আমাদের 01815-931153 নম্বরে সরাসরি কল বা WhatsApp করতে পারেন।",
+    },
+  ];
+
+  const handleOptionClick = (faq: { q: string; a: string }) => {
+    setMessages((prev) => [...prev, { sender: "user", text: faq.q }]);
+
+    // Slight delay to make it feel natural and cute
+    setTimeout(() => {
+      setMessages((prev) => [...prev, { sender: "bot", text: faq.a }]);
+    }, 500);
+  };
+
+  return (
+    // Positioned Middle-Left
+    <div className="fixed left-6 top-1/2 -translate-y-1/2 z-50 flex items-center">
+      {/* Floating Cute Robot Button */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="relative w-16 h-16 bg-gradient-to-tr from-blue-500 via-indigo-500 to-purple-500 rounded-full flex justify-center items-center shadow-[0_0_20px_rgba(99,102,241,0.5)] hover:scale-110 hover:shadow-[0_0_30px_rgba(99,102,241,0.8)] transition-all duration-300 z-10"
+      >
+        <span className="text-3xl animate-pulse">🤖</span>
+        {/* Cute notification dot */}
+        {!isOpen && (
+          <span className="absolute top-1 right-1 flex h-4 w-4">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-pink-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-4 w-4 bg-pink-500 border-2 border-white"></span>
+          </span>
+        )}
+      </button>
+
+      {/* Chat Window (Appears to the right of the robot) */}
+      {isOpen && (
+        <div className="absolute left-20 bg-white/95 backdrop-blur-xl w-[350px] h-[500px] rounded-3xl shadow-2xl border border-indigo-100 overflow-hidden flex flex-col transition-all transform origin-left animate-in fade-in zoom-in duration-300">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-blue-600 to-purple-600 p-4 text-white flex justify-between items-center shadow-md">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center text-2xl border border-white/30 shadow-inner">
+                🤖
+              </div>
+              <div>
+                <h3 className="font-bold text-sm leading-tight">ZAR</h3>
+                <p className="text-[10px] text-blue-100 flex items-center gap-1">
+                  <span className="w-2 h-2 rounded-full bg-green-400"></span>{" "}
+                  Online
+                </p>
+              </div>
+            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="text-white/80 hover:text-white bg-white/10 hover:bg-white/20 p-1.5 rounded-full transition-colors"
+            >
+              <svg
+                className="w-5 h-5"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M6 18L18 6M6 6l12 12"
+                />
+              </svg>
+            </button>
+          </div>
+
+          {/* Chat Messages Area */}
+          <div className="flex-1 p-4 overflow-y-auto bg-[#F8FAFC] flex flex-col gap-3 scroll-smooth">
+            {messages.map((msg, idx) => (
+              <div
+                key={idx}
+                className={`max-w-[85%] p-3 rounded-2xl text-sm shadow-sm ${
+                  msg.sender === "bot"
+                    ? "bg-white border border-indigo-50 text-gray-800 self-start rounded-tl-sm"
+                    : "bg-gradient-to-r from-blue-500 to-indigo-500 text-white self-end rounded-tr-sm"
+                }`}
+              >
+                {msg.text}
+              </div>
+            ))}
+          </div>
+
+          {/* Options / FAQ Buttons Area */}
+          <div className="p-4 bg-white border-t border-indigo-50 shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
+            <p className="text-xs text-gray-400 font-medium mb-3 flex items-center gap-2">
+              <span className="w-full h-px bg-gray-100 flex-1"></span>
+              তোমার প্রশ্ন বেছে নাও
+              <span className="w-full h-px bg-gray-100 flex-1"></span>
+            </p>
+            <div className="flex flex-wrap gap-2 justify-center max-h-32 overflow-y-auto custom-scrollbar">
+              {faqOptions.map((faq, idx) => (
+                <button
+                  key={idx}
+                  onClick={() => handleOptionClick(faq)}
+                  className="bg-indigo-50 hover:bg-indigo-500 hover:text-white text-indigo-700 text-xs font-semibold px-3 py-2 rounded-xl transition-all duration-200 text-left border border-indigo-100 shadow-sm"
+                >
+                  {faq.q}
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default function LandingPage() {
   const [lang, setLang] = useState<"bn" | "en">("bn");
   const [scrolled, setScrolled] = useState(false);
@@ -48,7 +196,13 @@ export default function LandingPage() {
   const [openSyllabus, setOpenSyllabus] = useState<number | null>(0);
   const [copied, setCopied] = useState(false);
 
-  // Navbar shadow on scroll
+  // Form States
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [submitStatus, setSubmitStatus] = useState<
+    "idle" | "success" | "error"
+  >("idle");
+  const [errorMessage, setErrorMessage] = useState("");
+
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
     window.addEventListener("scroll", handleScroll);
@@ -57,14 +211,56 @@ export default function LandingPage() {
 
   const toggleLang = () => setLang(lang === "bn" ? "en" : "bn");
 
-  // Copy Number Function
   const copyNumber = () => {
     navigator.clipboard.writeText("01815931153");
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
 
-  // --- Bilingual Content Dictionary ---
+  const handleFormSubmit = async (e: FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setIsSubmitting(true);
+    setSubmitStatus("idle");
+    setErrorMessage("");
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+    const paymentNumber = formData.get("paymentNumber") as string;
+
+    if (!paymentNumber.trim()) {
+      setErrorMessage(
+        lang === "bn"
+          ? "অনুগ্রহ করে পেমেন্ট নম্বর প্রদান করুন।"
+          : "Please provide a payment number.",
+      );
+      setIsSubmitting(false);
+      return;
+    }
+
+    try {
+      const response = await fetch("/api/submit", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (response.ok) {
+        setSubmitStatus("success");
+        form.reset();
+      } else {
+        throw new Error("Submission failed");
+      }
+    } catch (error) {
+      setSubmitStatus("error");
+      setErrorMessage(
+        lang === "bn"
+          ? "সার্ভার ত্রুটি। আবার চেষ্টা করুন।"
+          : "Server error. Please try again.",
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
   const content = {
     bn: {
       navEnroll: "ভর্তি হোন",
@@ -139,12 +335,12 @@ export default function LandingPage() {
       copiedBtn: "কপি হয়েছে!",
       nameLabel: "আপনার সম্পূর্ণ নাম",
       phoneLabel: "WhatsApp নম্বর",
-      proofTitle: "পেমেন্ট প্রুফ (যেকোনো একটি দিন)",
+      proofTitle: "পেমেন্ট প্রুফ",
       senderNumberLabel: "যে নম্বর থেকে টাকা পাঠিয়েছেন",
-      orText: "অথবা",
-      screenshotLabel: "পেমেন্টের স্ক্রিনশট",
       submitBtn: "রেজিস্ট্রেশন সম্পন্ন করুন",
+      submittingBtn: "প্রসেসিং হচ্ছে...",
       whatsappHelp: "যেকোনো প্রয়োজনে নিচের হোয়াটসঅ্যাপ আইকনে যোগাযোগ করুন।",
+      successMsg: "আপনার রেজিস্ট্রেশন সফল হয়েছে! আমরা খুব শীঘ্রই যোগাযোগ করবো।",
     },
     en: {
       navEnroll: "Enroll Now",
@@ -219,13 +415,13 @@ export default function LandingPage() {
       copiedBtn: "Copied!",
       nameLabel: "Full Name",
       phoneLabel: "WhatsApp Number",
-      proofTitle: "Payment Proof (Provide at least one)",
+      proofTitle: "Payment Proof",
       senderNumberLabel: "Sender Account Number",
-      orText: "OR",
-      screenshotLabel: "Payment Screenshot",
       submitBtn: "Complete Registration",
+      submittingBtn: "Processing...",
       whatsappHelp:
         "For any further questions, contact us via the WhatsApp icon below.",
+      successMsg: "Registration successful! We will contact you shortly.",
     },
   };
 
@@ -233,7 +429,6 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-slate-50 font-sans text-gray-800 scroll-smooth relative">
-      {/* Floating WhatsApp Button */}
       <a
         href="https://wa.me/8801516501537"
         target="_blank"
@@ -244,13 +439,12 @@ export default function LandingPage() {
           <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
         </svg>
       </a>
-
-      {/* Navbar */}
+      {/* --- ADD THE CHATBOT HERE --- */}
+      <SimpleChatbot />
       <nav
         className={`fixed w-full top-0 z-40 transition-all duration-300 ${scrolled ? "bg-white/95 backdrop-blur-md shadow-md py-3" : "bg-transparent py-5"}`}
       >
         <div className="max-w-6xl mx-auto px-4 flex justify-between items-center">
-          {/* LOGO CONTAINER */}
           <div
             className={`bg-white rounded-xl flex items-center justify-center transition-all ${scrolled ? "px-0 py-0" : "px-4 py-2 shadow-lg shadow-white/5"}`}
           >
@@ -278,9 +472,7 @@ export default function LandingPage() {
         </div>
       </nav>
 
-      {/* Premium Dark Tech Hero Section */}
       <header className="relative pt-32 pb-24 md:pt-48 md:pb-36 overflow-hidden bg-[#0B1120]">
-        {/* Abstract Glowing Backgrounds */}
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full max-w-[1200px] pointer-events-none">
           <div className="absolute top-[-20%] left-[-10%] w-[500px] h-[500px] bg-blue-600/20 rounded-full blur-[120px]"></div>
           <div className="absolute top-[20%] right-[-10%] w-[400px] h-[400px] bg-indigo-500/20 rounded-full blur-[100px]"></div>
@@ -324,7 +516,6 @@ export default function LandingPage() {
           </div>
         </div>
 
-        {/* Curved bottom divider */}
         <div className="absolute bottom-0 left-0 w-full overflow-hidden leading-none z-20">
           <svg
             className="relative block w-full h-[40px] md:h-[60px]"
@@ -341,10 +532,8 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Syllabus & Features Section */}
       <section className="py-20 bg-slate-50 relative z-30">
         <div className="max-w-6xl mx-auto px-4 grid md:grid-cols-2 gap-16">
-          {/* Syllabus Accordion */}
           <div>
             <h2 className="text-3xl font-extrabold mb-8 text-gray-900 flex items-center">
               <span className="bg-blue-600 w-2 h-8 rounded-full mr-3"></span>
@@ -366,7 +555,6 @@ export default function LandingPage() {
             </div>
           </div>
 
-          {/* Features Cards */}
           <div>
             <h2 className="text-3xl font-extrabold mb-8 text-gray-900 flex items-center">
               <span className="bg-green-500 w-2 h-8 rounded-full mr-3"></span>
@@ -395,7 +583,6 @@ export default function LandingPage() {
               ))}
             </div>
 
-            {/* Promise Banner */}
             <div className="mt-8 bg-gradient-to-br from-indigo-50 to-blue-50 border border-indigo-100 rounded-2xl p-8 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-4 opacity-10 text-6xl">
                 🛡️
@@ -411,7 +598,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* FAQ Section */}
       <section className="py-20 bg-white border-t border-gray-100">
         <div className="max-w-3xl mx-auto px-4">
           <h2 className="text-3xl font-extrabold mb-10 text-center text-gray-900">
@@ -432,7 +618,6 @@ export default function LandingPage() {
         </div>
       </section>
 
-      {/* Registration Form Area */}
       <section id="register" className="py-24 bg-[#0B1120] text-white relative">
         <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none">
           <div className="absolute top-[10%] left-[10%] w-[300px] h-[300px] bg-blue-500/10 rounded-full blur-[100px]"></div>
@@ -446,7 +631,6 @@ export default function LandingPage() {
             </h2>
 
             <div className="grid md:grid-cols-2 gap-12">
-              {/* Left Column: Payment Info */}
               <div className="flex flex-col">
                 <div className="bg-gradient-to-br from-slate-50 to-blue-50 border border-blue-100/50 rounded-2xl p-8 h-full flex flex-col justify-center text-center">
                   <div className="w-14 h-14 bg-blue-600 text-white rounded-full flex items-center justify-center mx-auto mb-6 text-xl font-bold shadow-lg shadow-blue-500/30">
@@ -459,7 +643,6 @@ export default function LandingPage() {
                     {t.paymentInstruction}
                   </p>
 
-                  {/* Interactive Number Box */}
                   <div className="bg-white p-2 rounded-xl shadow-sm border border-gray-200 flex items-center justify-between mb-6">
                     <span className="text-2xl md:text-3xl font-extrabold text-gray-900 tracking-wider font-mono pl-4">
                       01815-931153
@@ -499,7 +682,7 @@ export default function LandingPage() {
                               strokeLinecap="round"
                               strokeLinejoin="round"
                               strokeWidth={2}
-                              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                              d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
                             />
                           </svg>
                           <span className="hidden sm:inline">{t.copyBtn}</span>
@@ -522,128 +705,122 @@ export default function LandingPage() {
                 </div>
               </div>
 
-              {/* Right Column: Form Inputs */}
               <div>
-                {/* Forminit action URL and Form-Data setup */}
-                <form
-                  action="https://getform.io/f/k6edlfhqstz"
-                  method="POST"
-                  encType="multipart/form-data"
-                  className="space-y-5"
-                >
-                  {/* Basic Info */}
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">
-                      {t.nameLabel} <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="text"
-                      name="fi-sender-fullName"
-                      className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition bg-slate-50"
-                      placeholder="e.g. Samiul Hasan"
-                      required
-                    />
-                  </div>
-                  <div>
-                    <label className="block text-sm font-bold text-gray-700 mb-2">
-                      {t.phoneLabel} <span className="text-red-500">*</span>
-                    </label>
-                    <input
-                      type="tel"
-                      name="fi-text-phone"
-                      className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition bg-slate-50"
-                      placeholder="01XXX-XXXXXX"
-                      required
-                    />
-                  </div>
-
-                  {/* Payment Proof Section */}
-                  <div className="pt-4 mt-2 border-t border-gray-100">
-                    <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
-                      <svg
-                        className="w-5 h-5 text-green-500"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={2}
-                          d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
-                        />
-                      </svg>
-                      {t.proofTitle}
-                    </h4>
-
-                    <div className="space-y-2">
-                      {/* Sender Number Input */}
-                      <div>
-                        <label className="block text-xs font-bold text-gray-600 mb-1">
-                          {t.senderNumberLabel}
-                        </label>
-                        <input
-                          type="tel"
-                          name="fi-text-paymentNumber"
-                          className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-100 outline-none transition bg-white text-sm"
-                          placeholder="e.g. 017XX-XXXXXX"
-                        />
-                      </div>
-
-                      {/* --- Visual OR Divider --- */}
-                      <div className="flex items-center justify-center space-x-3 py-2">
-                        <div className="h-px bg-gray-200 flex-1"></div>
-                        <span className="text-xs font-bold text-gray-400 bg-white px-2 uppercase tracking-wide">
-                          {t.orText}
-                        </span>
-                        <div className="h-px bg-gray-200 flex-1"></div>
-                      </div>
-
-                      {/* Screenshot Input */}
-                      <div>
-                        <label className="block text-xs font-bold text-gray-600 mb-1">
-                          {t.screenshotLabel}
-                        </label>
-                        <input
-                          type="file"
-                          name="fi-file-screenshot"
-                          accept="image/*"
-                          className="w-full px-4 py-2.5 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-100 outline-none transition bg-white text-sm file:mr-4 file:py-2 file:px-4 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-slate-100 file:text-slate-700 hover:file:bg-slate-200"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Submit Button */}
-                  <button
-                    type="submit"
-                    className="w-full bg-gradient-to-r from-green-500 to-emerald-600 text-white font-bold py-4 mt-4 rounded-xl text-lg shadow-lg shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 hover:from-green-600 hover:to-emerald-700 transition-all transform hover:-translate-y-1"
-                  >
-                    {t.submitBtn}
-                  </button>
-
-                  {/* --- WhatsApp Helper Text --- */}
-                  <p className="text-center text-sm font-medium text-gray-500 mt-4 flex items-center justify-center gap-2">
+                {submitStatus === "success" ? (
+                  <div className="h-full flex flex-col items-center justify-center text-center p-6 bg-green-50 rounded-2xl border border-green-200">
                     <svg
-                      className="w-4 h-4 text-green-500"
-                      fill="currentColor"
+                      className="w-16 h-16 text-green-500 mb-4"
+                      fill="none"
+                      stroke="currentColor"
                       viewBox="0 0 24 24"
                     >
-                      <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={2}
+                        d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                      />
                     </svg>
-                    {t.whatsappHelp}
-                  </p>
-                </form>
+                    <h3 className="text-2xl font-bold text-green-800 mb-2">
+                      {t.successMsg}
+                    </h3>
+                  </div>
+                ) : (
+                  <form onSubmit={handleFormSubmit} className="space-y-5">
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
+                        {t.nameLabel} <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="text"
+                        name="name"
+                        className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition bg-slate-50"
+                        placeholder="e.g. Samiul Hasan"
+                        required
+                      />
+                    </div>
+                    <div>
+                      <label className="block text-sm font-bold text-gray-700 mb-2">
+                        {t.phoneLabel} <span className="text-red-500">*</span>
+                      </label>
+                      <input
+                        type="tel"
+                        name="phone"
+                        className="w-full px-5 py-3.5 rounded-xl border border-gray-200 focus:ring-4 focus:ring-blue-100 focus:border-blue-500 outline-none transition bg-slate-50"
+                        placeholder="01XXX-XXXXXX"
+                        required
+                      />
+                    </div>
+
+                    <div className="pt-4 mt-2 border-t border-gray-100">
+                      <h4 className="font-bold text-gray-800 mb-4 flex items-center gap-2">
+                        <svg
+                          className="w-5 h-5 text-green-500"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={2}
+                            d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                          />
+                        </svg>
+                        {t.proofTitle}
+                      </h4>
+
+                      <div className="space-y-2">
+                        <div>
+                          <label className="block text-xs font-bold text-gray-600 mb-1">
+                            {t.senderNumberLabel}{" "}
+                            <span className="text-red-500">*</span>
+                          </label>
+                          <input
+                            type="tel"
+                            name="paymentNumber"
+                            required
+                            className="w-full px-4 py-3 rounded-lg border border-gray-200 focus:ring-2 focus:ring-blue-100 outline-none transition bg-white text-sm"
+                            placeholder="e.g. 017XX-XXXXXX"
+                          />
+                        </div>
+                      </div>
+                    </div>
+
+                    {errorMessage && (
+                      <p className="text-red-500 text-sm font-semibold text-center">
+                        {errorMessage}
+                      </p>
+                    )}
+
+                    <button
+                      disabled={isSubmitting}
+                      type="submit"
+                      className={`w-full text-white font-bold py-4 mt-4 rounded-xl text-lg shadow-lg transition-all transform hover:-translate-y-1 ${isSubmitting ? "bg-gray-400 cursor-not-allowed" : "bg-gradient-to-r from-green-500 to-emerald-600 shadow-green-500/30 hover:shadow-xl hover:shadow-green-500/40 hover:from-green-600 hover:to-emerald-700"}`}
+                    >
+                      {isSubmitting ? t.submittingBtn : t.submitBtn}
+                    </button>
+
+                    <p className="text-center text-sm font-medium text-gray-500 mt-4 flex items-center justify-center gap-2">
+                      <svg
+                        className="w-4 h-4 text-green-500"
+                        fill="currentColor"
+                        viewBox="0 0 24 24"
+                      >
+                        <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51a12.8 12.8 0 0 0-.57-.01c-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z" />
+                      </svg>
+                      {t.whatsappHelp}
+                    </p>
+                  </form>
+                )}
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Footer */}
       <footer className="bg-[#050810] border-t border-white/5 py-12 text-gray-500">
         <div className="max-w-6xl mx-auto px-4 text-center">
-          {/* LOGO CONTAINER */}
           <div className="bg-white inline-block px-4 py-2 rounded-2xl mb-6 opacity-90 hover:opacity-100 transition-opacity">
             <img
               src="/LOGO.png"
@@ -651,7 +828,6 @@ export default function LandingPage() {
               className="h-10 mx-auto object-contain"
             />
           </div>
-
           <p className="mb-6 max-w-md mx-auto text-sm">
             Empowering HSC students with modern, interactive, and comprehensive
             ICT education.
