@@ -1,6 +1,12 @@
 "use client";
 
-import React, { useState, useEffect, ReactNode, FormEvent } from "react";
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  ReactNode,
+  FormEvent,
+} from "react";
 
 interface AccordionProps {
   title: string;
@@ -53,6 +59,16 @@ const SimpleChatbot = () => {
     },
   ]);
 
+  const chatContainerRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTo({
+        top: chatContainerRef.current.scrollHeight,
+        behavior: "smooth",
+      });
+    }
+  }, [messages]);
   // Updated and expanded FAQs
   const faqOptions = [
     {
@@ -81,7 +97,7 @@ const SimpleChatbot = () => {
     },
     {
       q: "সরাসরি কথা বলতে চাই",
-      a: "আপনি যেকোনো প্রয়োজনে আমাদের 01815-931153 নম্বরে সরাসরি কল বা WhatsApp করতে পারেন।",
+      a: "আপনি যেকোনো প্রয়োজনে আমাদের 01516-501537 নম্বরে সরাসরি কল বা WhatsApp করতে পারেন।",
     },
   ];
 
@@ -135,7 +151,10 @@ const SimpleChatbot = () => {
           </div>
 
           {/* Chat Messages Area */}
-          <div className="flex-1 p-4 overflow-y-auto bg-[#F8FAFC] flex flex-col gap-3 scroll-smooth">
+          <div
+            ref={chatContainerRef}
+            className="flex-1 p-4 overflow-y-auto bg-[#F8FAFC] flex flex-col gap-3 scroll-smooth"
+          >
             {messages.map((msg, idx) => (
               <div
                 key={idx}
@@ -270,7 +289,7 @@ export default function LandingPage() {
         "বোর্ড পরীক্ষার জন্য Number System, Logic Gate, HTML, C Programming এবং Database-এর ১০০% কমপ্লিট সল্যুশন।",
       regularPrice: "২৯৯৯ ৳",
       offerPrice: "৯৯৯ ৳",
-      ctaMain: "আজই সিট কনফার্ম করো",
+      ctaMain: "এখনই ভর্তি হোন",
       syllabusTitle: "কোর্সে যা যা শিখবো",
       syllabus: [
         {
